@@ -1,0 +1,16 @@
+- name: delete app directory
+  ansible.builtin.file:
+    path: "{{ app_location }}"
+    state: absent
+  #ignore_errors: yes
+
+- name: create app directory
+  ansible.builtin.file:
+    path: "{{ app_location }}"
+    state: directory
+
+- name: download and extract code
+  ansible.builtin.unarchive:
+    src: "http://{{ nexus_url }}:8081/repository/{{ component }}/com/expense/{{ component }}/{{ app_version }}/{{ component }}-{{ app_version }}.zip"
+    dest: "{{ app_location }}"
+    remote_src: yes
